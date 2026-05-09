@@ -1,13 +1,25 @@
-node_modules/
-dist/
-build/
-.DS_Store
-Thumbs.db
-.env
-.env.*
-!.env.example
-*.log
-.idea/
-.vscode/
-coverage/
-.pnpm-store/
+# Ignore build outputs and local runtime files
+backend/target/
+backend/*.log
+backend/run*.log
+backend/.idea/
+agent/output/
+agent/__pycache__/
+backend-release/
+front-dist/
+1.0.0/
+file/
+*.tar.gz
+*.zip
+.tmp_*
+
+# Frontend local env and generated files
+front/node_modules/
+front/dist/
+front/.env.*
+front/.idea/
+
+# Local docker/runtime helpers copied for deployment only
+/docker-compose.opennote-runtime.yml
+/docker-compose.opennote.yml
+/opennote-question-import-skill.zip

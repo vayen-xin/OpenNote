@@ -1,0 +1,38 @@
+services:
+  opennote-backend:
+    build:
+      context: /opt/opennode1.1.0
+      dockerfile: Dockerfile
+    image: opennote-backend:1.1.0
+    container_name: opennote-backend
+    restart: unless-stopped
+    working_dir: /app
+    command: ["java", "-jar", "/app/app.jar"]
+    environment:
+      SERVER_PORT: 8080
+      MYSQL_URL: jdbc:mysql://host.docker.internal:3306/opennote?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: 123456
+      OPENNOTE_MEDIA_ROOT: /app/storage/media
+      OPENNOTE_AI_IMPORT_TASK_ROOT: /app/storage/import-tasks
+      OPENNOTE_AI_IMPORT_AGENT_SCRIPT: /opt/opennote-agent/run.py
+      OPENNOTE_AI_IMPORT_PYTHON: /opt/opennote-venv/bin/python
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - /opt/opennote-runtime/storage/media:/app/storage/media
+      - /opt/opennote-runtime/storage/import-tasks:/app/storage/import-tasks
+    ports:
+      - "8081:8080"
+
+  opennote-frontend:
+    image: nginx:1.27-alpine
+    container_name: opennote-frontend
+    restart: unless-stopped
+    depends_on:
+      - opennote-backend
+    volumes:
+      - /opt/opennode1.1.0/dist:/usr/share/nginx/html:ro
+      - /opt/opennode1.1.0/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "5174:80"

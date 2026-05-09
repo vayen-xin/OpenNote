@@ -1,0 +1,27 @@
+﻿server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: opennote-backend
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 600MB
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://127.0.0.1:3306/opennote?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+opennote:
+  media-root: ${OPENNOTE_MEDIA_ROOT:./storage/media}
+  ai-import:
+    task-root: ${OPENNOTE_AI_IMPORT_TASK_ROOT:./storage/import-tasks}
+    python-command: ${OPENNOTE_AI_IMPORT_PYTHON:python}
+    agent-script: ${OPENNOTE_AI_IMPORT_AGENT_SCRIPT:../agent/run.py}
+    default-model: ${OPENNOTE_AI_IMPORT_MODEL:qwen-vl-max}
+    default-api-url: ${OPENNOTE_AI_IMPORT_API_URL:https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions}
+    default-api-key: ${OPENNOTE_AI_IMPORT_API_KEY:}
+    default-workers: ${OPENNOTE_AI_IMPORT_WORKERS:4}
+    default-skip-first: ${OPENNOTE_AI_IMPORT_SKIP_FIRST:10}
